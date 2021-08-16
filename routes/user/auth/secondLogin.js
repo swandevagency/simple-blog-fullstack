@@ -1,22 +1,18 @@
 const express = require('express')
-const jwt = require('jsonwebtoken')
-const mongoose = require('mongoose')
 const router = express.Router()
+const globalController = require('../../../controllers/index')
 
 router.post('/', async (req, res) => {
-    if (!req.headers.authorization) return res.status(404).send('access denied!')
-    const otpToken = req.headers.authorization.split(" ")[1]
-    if (!otpToken) return res.status(404).send('access denied!')
+    if (!req.headers.authorization) return globalController.messageComponent.noAccess(res)
+    const otpToken = globalController.userComponent.findOtpToken(req)
+    if (!otpToken) return globalController.messageComponent.noAccess(res)
     try {
-        const verified = jwt.verify(otpToken, process.env.OTP_SECRET)
-        req.user = verified
-        const { _id } = verified
-        const user = await mongoose.model('User').findOne({ _id })
-        if (!(user.otpPassword === req.body.otpPassword)) return res.status(404).send('OTP password mismatched!')
-        const token = await jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '7d' })
-        res.header('auth-token', token).send(token)
+        const _id = await globalController.userComponent.otpTokenIsMatch(otpToken, req.user)
+        const user = await globalController.userComponent.findUser(_id)
+        if (!(user.otpPassword === req.body.otpPassword)) return globalController.messageComponent.otpPasswordMismatch(res)
+        await globalController.userComponent.createMainToken(user, res)
     } catch (err) {
-        res.status(403).send(err)
+        globalController.messageComponent.tokenError(res, err)
     }
 })
 

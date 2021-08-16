@@ -1,43 +1,22 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const router = express.Router()
-const bcrypt = require('bcryptjs');
-
+const globalController = require('../../../controllers/index')
 
 router.post('/', async (req, res) => {
     const { firstName, lastName, userName, email, password,is2faEnable } = req.body;
     const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!firstName || !lastName || !userName || !password ) {
-        console.log('user entry is not correct!');
-        res.status(400).send('some fields are empty.');
-        return;
+        globalController.messageComponent.emptyField(res)
     }
     if (!email || !regex.test(email)){
-        res.status(400).send({
-            message: "Please provide a valid email"
-        });
-        return;
+        globalController.messageComponent.invalidEmail(res)
     }
-    const User = mongoose.model('User');
-    const emailIsNotUnique = await User.findOne({ email })
+    const emailIsNotUnique =await globalController.userComponent.uniqueEmail(email)
     if (emailIsNotUnique) {
-        console.log('email exist!');
-        res.status(400).send('email already existed');
-        return;
+        globalController.messageComponent.notUniqueEmail(res)
     }
-    const newPassword = await bcrypt.hash(password, 10)
-    const user = new User({
-        password:newPassword,
-        firstName,
-        lastName,
-        userName,
-        email,
-        is2faEnable
-    })
-    await user.save()
-    res.status(200).send(user)
+    const user =await globalController.userComponent.createUser(firstName, lastName, userName, email, password,is2faEnable)
+    globalController.messageComponent.showUser(res,user)
 })
-
-
 
 module.exports = router

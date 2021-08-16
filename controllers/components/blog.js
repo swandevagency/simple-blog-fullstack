@@ -24,8 +24,20 @@ const createBlog = async (req) => {
     })
     blog.save()
 }
+const listBlog=async()=>{
+    await mongoose.model('Blog').find().sort({ createdAt: -1 })
+}
+const findBlog=async(_id)=>{
+    await mongoose.model('Blog').findOne({_id})
+}
+const deleteBlog=async(_id)=>{
+    await mongoose.model('Blog').deleteOne({ _id })
+}
 
 module.exports = {
     updateBlog,
-    createBlog
+    createBlog,
+    listBlog,
+    findBlog,
+    deleteBlog
 }

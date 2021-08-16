@@ -1,11 +1,13 @@
-const uploadComponent = require('./components/upload')
-const updateComponent = require('./components/update')
+const fileComponent = require('./components/file')
+const blogComponent = require('./components/blog')
 const errorComponent = require('./components/error')
 const messageComponent= require('./components/message')
+const userComponent=require('./components/user/index')
 
 module.exports={
-    uploadComponent,
-    updateComponent,
+    fileComponent,
+    blogComponent,
     errorComponent,
-    messageComponent
+    messageComponent,
+    userComponent
 }
