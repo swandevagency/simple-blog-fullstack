@@ -1,13 +1,9 @@
-const fileComponent = require('./components/file')
-const blogComponent = require('./components/blog')
-const errorComponent = require('./components/error')
-const messageComponent= require('./components/message')
-const userComponent=require('./components/user/index')
+const express = require('express')
+global.router = express.Router()
+global.verify = require('../middleware/auth')
 
-module.exports={
-    fileComponent,
-    blogComponent,
-    errorComponent,
-    messageComponent,
-    userComponent
-}
+global.fileComponent = require('./components/file')
+global.blogComponent = require('./components/blog')
+global.errorComponent = require('./components/error')
+global.messageComponent= require('./components/message')
+global.userComponent=require('./components/user/index')
