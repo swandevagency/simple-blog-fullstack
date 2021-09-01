@@ -1,4 +1,4 @@
-# Sample Backend's blog for Node.js
+# Backend's blog for Node.js
 This repository contains a sample backend code that demonstrates how to generate JWT and how user can login and register and see her/his profile and create simple blog.
 
 # Pre-requisites
@@ -51,3 +51,5 @@ This library is released under ISC License.
 Our developer support team is here to help you.
   
 You can find us on [Slack](https://swan-agency.slack.com/archives/C025S62527N) or send us email support@swan-agency.com.
+	
+Also complete documentation can be found in [here](https://swandevagency.atlassian.net/wiki/spaces/TFBPP/pages)
