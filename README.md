@@ -52,4 +52,4 @@ Our developer support team is here to help you.
   
 You can find us on [Slack](https://swan-agency.slack.com/archives/C025S62527N) or send us email support@swan-agency.com.
 	
-Also complete documentation can be found in [here](https://swandevagency.atlassian.net/wiki/spaces/TFBPP/pages)
+Also complete documentation can be found in [here](https://swandevagency.atlassian.net/wiki/spaces/TFBPP/pages).
